@@ -13,17 +13,17 @@ spec:
     kind: KubeadmControlPlane
     name: capi-ec2-control-plane
   infrastructureRef:
-    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
     kind: AWSCluster
     name: capi-ec2
 ---
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
 kind: AWSCluster
 metadata:
   name: capi-ec2
   namespace: default
 spec:
-  region: us-east-1
+  region: ap-southeast-1
   sshKeyName: capi-ec2
 ---
 apiVersion: controlplane.cluster.x-k8s.io/v1beta1
@@ -52,13 +52,13 @@ spec:
         name: '{{ ds.meta_data.local_hostname }}'
   machineTemplate:
     infrastructureRef:
-      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
       kind: AWSMachineTemplate
       name: capi-ec2-control-plane
   replicas: 3
-  version: v1.25.0
+  version: v1.24.0
 ---
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
 kind: AWSMachineTemplate
 metadata:
   name: capi-ec2-control-plane
@@ -67,7 +67,7 @@ spec:
   template:
     spec:
       iamInstanceProfile: control-plane.cluster-api-provider-aws.sigs.k8s.io
-      instanceType: t3.large
+      instanceType: t3.small
       sshKeyName: capi-ec2
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
@@ -89,12 +89,12 @@ spec:
           name: capi-ec2-md-0
       clusterName: capi-ec2
       infrastructureRef:
-        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
         kind: AWSMachineTemplate
         name: capi-ec2-md-0
-      version: v1.25.0
+      version: v1.24.0
 ---
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
 kind: AWSMachineTemplate
 metadata:
   name: capi-ec2-md-0
@@ -103,7 +103,7 @@ spec:
   template:
     spec:
       iamInstanceProfile: nodes.cluster-api-provider-aws.sigs.k8s.io
-      instanceType: t3.large
+      instanceType: t3.small
       sshKeyName: capi-ec2
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
